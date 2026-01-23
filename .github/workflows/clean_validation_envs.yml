@@ -21,17 +21,20 @@ jobs:
       pull-requests: read # For checking PRs
       actions: read # For checking workflow runs
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with:
           # This is CRITICAL since we're making decisions based on branch existence
           fetch-depth: 0
           persist-credentials: false
 
       - name: Azure Login
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: ${{ (secrets.AZURE_ENVIRONMENT != '' && secrets.AZURE_ENVIRONMENT) || 'AzureCloud' }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
 
       - name: Run clean
         env:
